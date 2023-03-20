@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import page.HomePage;
 import page.LoginForm;
 
@@ -17,9 +18,12 @@ public class JdiPageTest {
   // Данный код существует сугубо для демонстрационных целей в рамках учебного курса, чтобы объяснить основные концепции
   private HomePage homePage;
   private LoginForm form;
+
   @Before
   public void setup() {
-    driver = new ChromeDriver();
+    ChromeOptions options = new ChromeOptions();
+//    options.setHeadless(true);
+    driver = new ChromeDriver(options);
     driver.manage().window().fullscreen();
     homePage = new HomePage(driver);
     form = new LoginForm(driver);
@@ -42,7 +46,8 @@ public class JdiPageTest {
 
 
     //2. Войти в тестовую учетную запись
-    form.waitTheFormToAppear()
+    form.openForm()
+        .waitTheFormToAppear()
         .enterUsername("Roman")
         .enterPassword("Jdi1234")
         .clickConfirm();

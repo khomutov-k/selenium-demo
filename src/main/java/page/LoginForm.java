@@ -27,9 +27,14 @@ public class LoginForm {
         PageFactory.initElements(driver, this);
     }
 
+    public LoginForm openForm() {
+        toggle.click();
+        return this;
+    }
+
     public LoginForm waitTheFormToAppear() {
-        new WebDriverWait(driver, 10)
-            .until(ExpectedConditions.presenceOfElementLocated(BY_FORM_ID));
+        new WebDriverWait(driver, 5)
+            .until(ExpectedConditions.elementToBeClickable(BY_FORM_ID));
         return this;
     }
 
