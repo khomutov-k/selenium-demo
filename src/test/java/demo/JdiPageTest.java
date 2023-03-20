@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import page.HomePage;
-import step.LoginSteps;
+import page.LoginForm;
 
 public class JdiPageTest {
   protected WebDriver driver;
@@ -15,14 +15,14 @@ public class JdiPageTest {
   //Дисклеймер: написанный код не следует использовать в представленном виде в продакшене, так как
   // не учтены бест практики из индустрии и необходима дальнейшая доработка.
   // Данный код существует сугубо для демонстрационных целей в рамках учебного курса, чтобы объяснить основные концепции
-  private final LoginSteps loginSteps = new LoginSteps();
   private HomePage homePage;
-
+  private LoginForm form;
   @Before
   public void setup() {
     driver = new ChromeDriver();
     driver.manage().window().fullscreen();
     homePage = new HomePage(driver);
+    form = new LoginForm(driver);
   }
 
   @After
@@ -40,8 +40,12 @@ public class JdiPageTest {
     String expectedTitle = "Home Page";
     homePage.titleShouldBe(softAssert, expectedTitle);
 
+
     //2. Войти в тестовую учетную запись
-    loginSteps.login(driver, "Roman", "Jdi1234");
+    form.waitTheFormToAppear()
+        .enterUsername("Roman")
+        .enterPassword("Jdi1234")
+        .clickConfirm();
 
     //3. Проверить: имя пользователя = ROMAN IOVLEV
     homePage.usernameShouldBe(softAssert, "ROMAN IOVLEV");
